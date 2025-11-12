@@ -1,0 +1,18 @@
+accelmail/
+├── index.html
+├── /assets/
+│   ├── accelmail_logo.png
+│   ├── accel_analysis_logo.png
+│   ├── accelmail_mockup.png
+│   ├── favicon.ico
+├── /scripts/
+│   ├── config.js
+│   ├── form-handler.js
+│   ├── date-utils.js
+│   ├── ui.js
+├── /admin/
+│   ├── dashboard.html
+│   ├── dashboard.js
+│   └── style.css
+└── Code.gs│
+└── README.md

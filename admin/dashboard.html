@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AccelMail Admin Dashboard</title>
+<link rel="stylesheet" href="../style.css">
+<script src="dashboard.js" defer></script>
+</head>
+<body>
+<h1>AccelMail Admin Dashboard</h1>
+
+<section id="pricingManagement">
+  <h2>Pricing Management</h2>
+  <table id="pricingTable">
+    <thead>
+      <tr><th>Mailer Size</th><th>Quantity Range</th><th>Per-piece Rate</th><th>Invoice Link</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+  <button id="addSize">Add Size</button>
+  <button id="savePricing">Save Changes</button>
+</section>
+
+<section id="blackoutDates">
+  <h2>Blackout Dates</h2>
+  <input type="date" id="blackoutInput">
+  <button id="addBlackout">Add</button>
+  <ul id="blackoutList"></ul>
+  <button id="saveBlackouts">Save</button>
+</section>
+
+<section id="quoteRequests">
+  <h2>Quote Requests</h2>
+  <table id="quotesTable">
+    <!-- Populated by JS -->
+  </table>
+</section>
+
+</body>
+</html>
