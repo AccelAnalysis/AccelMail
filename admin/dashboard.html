@@ -24,6 +24,26 @@
     margin-bottom: -1px;
   }
   .tabs { margin-bottom: 20px; }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .overview-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+  }
+  .overview-card .metric {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2f5597;
+  }
+  body.user-view .admin-only,
+  body[data-role="user"] .admin-only {
+    display: none !important;
+  }
   table { width: 100%; border-collapse: collapse; margin: 20px 0; }
   th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
   th { background-color: #f2f2f2; }
@@ -33,21 +53,42 @@
   .form-group input { width: 100%; padding: 8px; }
 </style>
 </head>
-<body>
+<body data-role="user">
 <div class="container">
   <h1>AccelMail Admin Portal</h1>
-  
+
   <div class="tabs">
-    <button class="tab-button active" data-tab="pricing">Pricing Matrix</button>
-    <button class="tab-button" data-tab="sizes">Mailer Sizes</button>
-    <button class="tab-button" data-tab="quantities">Quantity Tiers</button>
-    <button class="tab-button" data-tab="fees">Fees & Settings</button>
-    <button class="tab-button" data-tab="blackouts">Blackout Dates</button>
-    <button class="tab-button" data-tab="quotes">Quote Requests</button>
+    <button class="tab-button active" data-tab="overview">Overview Panel</button>
+    <button class="tab-button admin-only" data-tab="pricing">Pricing Matrix</button>
+    <button class="tab-button admin-only" data-tab="sizes">Mailer Sizes</button>
+    <button class="tab-button admin-only" data-tab="quantities">Quantity Tiers</button>
+    <button class="tab-button admin-only" data-tab="fees">Fees & Settings</button>
+    <button class="tab-button admin-only" data-tab="blackouts">Blackout Dates</button>
+    <button class="tab-button admin-only" data-tab="quotes">Quote Requests</button>
+  </div>
+
+  <!-- Overview Panel (visible to all roles) -->
+  <div id="overview" class="tab-content active">
+    <h2>Overview Panel</h2>
+    <p class="text-muted">Quick insights for standard users.</p>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <h3>Total Mailings</h3>
+        <p id="overviewTotalMailings" class="metric">--</p>
+      </div>
+      <div class="overview-card">
+        <h3>Pending Quotes</h3>
+        <p id="overviewPendingQuotes" class="metric">--</p>
+      </div>
+      <div class="overview-card">
+        <h3>Upcoming Mail Dates</h3>
+        <ul id="overviewUpcomingDates"></ul>
+      </div>
+    </div>
   </div>
 
   <!-- Pricing Matrix Tab -->
-  <div id="pricing" class="tab-content active">
+  <div id="pricing" class="tab-content admin-only">
     <h2>Pricing Matrix</h2>
     <div class="action-buttons">
       <button id="addPricingRow"><i class="fas fa-plus"></i> Add Pricing Row</button>
@@ -72,7 +113,7 @@
   </div>
 
   <!-- Mailer Sizes Tab -->
-  <div id="sizes" class="tab-content">
+  <div id="sizes" class="tab-content admin-only">
     <h2>Mailer Sizes</h2>
     <div class="form-group">
       <label for="sizeName">Size Name (e.g., 6x9, 9x12):</label>
@@ -93,7 +134,7 @@
   </div>
 
   <!-- Quantity Tiers Tab -->
-  <div id="quantities" class="tab-content">
+  <div id="quantities" class="tab-content admin-only">
     <h2>Quantity Tiers</h2>
     <div class="form-group">
       <label for="quantityRange">Quantity Range (e.g., 100-249):</label>
@@ -114,7 +155,7 @@
   </div>
 
   <!-- Fees & Settings Tab -->
-  <div id="fees" class="tab-content">
+  <div id="fees" class="tab-content admin-only">
     <h2>Fees & Settings</h2>
     <div class="form-group">
       <label for="designFee">Design Service Fee ($):</label>
@@ -128,7 +169,7 @@
   </div>
 
   <!-- Blackout Dates Tab -->
-  <div id="blackouts" class="tab-content">
+  <div id="blackouts" class="tab-content admin-only">
     <h2>Blackout Dates</h2>
     <div class="form-group">
       <label for="blackoutDate">Select Date:</label>
@@ -152,7 +193,7 @@
   </div>
 
   <!-- Quote Requests Tab -->
-  <div id="quotes" class="tab-content">
+  <div id="quotes" class="tab-content admin-only">
     <h2>Quote Requests</h2>
     <div class="filters">
       <label>Status: 
