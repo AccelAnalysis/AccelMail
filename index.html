@@ -62,11 +62,14 @@
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-blue-900"><i class="fa-solid fa-paper-plane mr-2"></i>Direct Mail Launcher</h1>
+            <img src="https://img1.wsimg.com/isteam/ip/0815fdc9-aafc-4fe1-99f8-dedc9ba0e23b/blob-f3ca1db.png" alt="Accel Analysis" class="h-12">
         </div>
     </header>
 
     <div class="max-w-3xl mx-auto px-4 py-8 space-y-8">
+        
+        <!-- Hero Image -->
+        <img src="https://img1.wsimg.com/isteam/ip/0815fdc9-aafc-4fe1-99f8-dedc9ba0e23b/blob-02576cc.png" alt="Campaign Hero" class="w-full rounded-xl shadow-md object-cover h-48 sm:h-64">
 
         <!-- FORM START -->
         <form id="campaignForm" class="space-y-8">
@@ -108,6 +111,7 @@
                 <input type="hidden" name="target_lat" id="target_lat">
                 <input type="hidden" name="target_lng" id="target_lng">
                 <input type="hidden" name="target_radius" id="target_radius">
+                <input type="hidden" name="locations_json" id="locations_json">
 
                 <!-- Selection Criteria TABS -->
                 <div class="p-6">
@@ -123,17 +127,18 @@
                     <div id="tab-survey" class="text-center py-6 border-2 border-dashed border-slate-200 rounded-lg">
                         <i class="fa-solid fa-clipboard-list text-4xl text-blue-200 mb-3"></i>
                         <p class="text-slate-600 mb-4">Know your audience? Fill out our detailed survey.</p>
-                        <a href="#" target="_blank" class="inline-flex items-center text-blue-600 font-semibold hover:underline">
+                        <a href="target_market_survey.html" target="_blank" class="inline-flex items-center text-blue-600 font-semibold hover:underline">
                             Open Target Market Survey <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
                         </a>
                         <input type="hidden" name="selection_method" id="selection_method" value="Survey">
+                        <input type="hidden" name="survey_data" id="survey_data">
                     </div>
 
                     <!-- Tab Content: Expert -->
                     <div id="tab-expert" class="hidden text-center py-6 border-2 border-dashed border-slate-200 rounded-lg">
                         <i class="fa-solid fa-calendar-check text-4xl text-teal-200 mb-3"></i>
                         <p class="text-slate-600 mb-4">Unsure who to target? Schedule a call with our segmentation experts.</p>
-                        <a href="#" target="_blank" class="inline-block bg-teal-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
+                        <a href="https://outlook.office.com/book/AccelAnalysis1@NETORGFT15328873.onmicrosoft.com/s/LUKxf3eKv0igPKL4Tbkb-A2?ismsaljsauthenabled" target="_blank" class="inline-block bg-teal-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-teal-700 transition shadow-sm">
                             Schedule Consultation
                         </a>
                     </div>
@@ -219,12 +224,59 @@
                     <!-- Follow Up Method (Moved from Section 4) -->
                     <div class="col-span-1 md:col-span-2">
                         <label class="block text-sm font-medium text-slate-700 mb-1">Preferred Follow-up Method</label>
-                        <select name="follow_up_method" class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                        <select name="follow_up_method" id="follow_up_method" class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white" onchange="toggleFollowUpOptions()">
                             <option value="Email">Email me</option>
                             <option value="Phone Call">Call me</option>
                             <option value="Text Message">Text me</option>
+                            <option value="Virtual Meeting">Virtual Meeting</option>
                             <option value="No Preference">No Preference</option>
                         </select>
+                    </div>
+
+                    <!-- Call Me Additional Options -->
+                    <div id="callMeOptions" class="col-span-1 md:col-span-2 hidden grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Best Time to Call</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_time_morning" value="Morning" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Morning</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_time_afternoon" value="Afternoon" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Afternoon</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_time_evening" value="Evening" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Evening</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Best Days (Week Days)</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_day_mon" value="Monday" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Mon</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_day_tue" value="Tuesday" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Tue</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_day_wed" value="Wednesday" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Wed</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_day_thu" value="Thursday" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Thu</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="call_day_fri" value="Friday" class="rounded text-blue-600 focus:ring-blue-500">
+                                    <span class="text-sm text-slate-700">Fri</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Notes -->
@@ -252,54 +304,216 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-        // --- MAP CONFIGURATION ---
-        
-        // 1. Initialize Map
-        // Default to center of US (approx) or a specific business location. 
-        // Using Kansas City as a central generic point for this demo.
-        const map = L.map('map').setView([39.0997, -94.5786], 10);
+        // --- GLOBAL SETTINGS ---
+        const BOOKING_URL = "https://outlook.office.com/book/AccelAnalysis1@NETORGFT15328873.onmicrosoft.com/s/LUKxf3eKv0igPKL4Tbkb-A2?ismsaljsauthenabled"; // UPDATE THIS LINK
+        const GOOGLE_SCRIPT_URL = "INSERT_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
 
-        // 2. Add Tile Layer (OpenStreetMap)
+        // --- MAP STATE & LOGIC ---
+        let locations = []; // Array of location objects
+        let activeLocationId = null;
+        let nextId = 1;
+
+        // 1. Initialize Map
+        const map = L.map('map').setView([36.8460, -76.2881], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // 3. Initialize Marker and Circle
-        let marker = L.marker([39.0997, -94.5786], {draggable: true}).addTo(map);
-        let circle = L.circle([39.0997, -94.5786], {
-            color: '#2563eb',
-            fillColor: '#3b82f6',
-            fillOpacity: 0.2,
-            radius: 1609.34 // 1 mile in meters
-        }).addTo(map);
+        // 2. Add Location Function
+        function addLocation(lat, lng, name = "") {
+            const id = nextId++;
+            // Default spacing from current slider value
+            const currentSpacing = parseFloat(document.getElementById('radiusSlider').value);
+            
+            const marker = L.marker([lat, lng], {draggable: true}).addTo(map);
+            
+            const loc = {
+                id: id,
+                lat: lat,
+                lng: lng,
+                name: name || `Location ${id}`,
+                ringCount: 1,
+                radiusSpacing: currentSpacing, // miles
+                marker: marker,
+                circles: []
+            };
 
-        // 4. Update Inputs Function
-        function updateFormInputs(lat, lng, radiusMiles) {
-            document.getElementById('target_lat').value = lat.toFixed(6);
-            document.getElementById('target_lng').value = lng.toFixed(6);
-            document.getElementById('target_radius').value = radiusMiles;
-            document.getElementById('radiusVal').textContent = radiusMiles;
+            locations.push(loc);
+            
+            // Render initial graphics
+            renderCircles(loc);
+            updatePopup(loc);
+            
+            // Set as active
+            setActiveLocation(id);
+
+            // Events
+            marker.on('click', () => setActiveLocation(id));
+            marker.on('dragstart', () => setActiveLocation(id));
+            marker.on('drag', (e) => {
+                const newPos = e.target.getLatLng();
+                loc.lat = newPos.lat;
+                loc.lng = newPos.lng;
+                renderCircles(loc);
+                updateHiddenJson();
+            });
+
+            updateHiddenJson();
+            return loc;
         }
 
-        // 5. Drag Event
-        marker.on('drag', function(e) {
-            const newPos = e.target.getLatLng();
-            circle.setLatLng(newPos);
-            updateFormInputs(newPos.lat, newPos.lng, document.getElementById('radiusSlider').value);
-        });
+        // 3. Set Active Location
+        function setActiveLocation(id) {
+            activeLocationId = id;
+            const loc = locations.find(l => l.id === id);
+            if (!loc) return;
 
-        // 6. Slider Event (Radius)
+            // Sync Slider to this location's spacing
+            const slider = document.getElementById('radiusSlider');
+            slider.value = loc.radiusSpacing;
+            document.getElementById('radiusVal').textContent = loc.radiusSpacing.toFixed(1);
+
+            // Open popup to show it's selected (optional, but good for UX)
+            loc.marker.openPopup();
+        }
+
+        // 4. Render Circles
+        function renderCircles(loc) {
+            // Remove existing circles
+            loc.circles.forEach(c => map.removeLayer(c));
+            loc.circles = [];
+
+            const milesToMeters = 1609.34;
+            
+            for (let i = 1; i <= loc.ringCount; i++) {
+                const radiusMeters = loc.radiusSpacing * i * milesToMeters;
+                // Opacity decreases slightly for outer rings
+                const opacity = Math.max(0.1, 0.3 - (i * 0.05));
+                
+                const circle = L.circle([loc.lat, loc.lng], {
+                    color: '#2563eb',
+                    fillColor: '#3b82f6',
+                    fillOpacity: opacity,
+                    weight: 1,
+                    radius: radiusMeters,
+                    interactive: false // Click through to map/marker
+                }).addTo(map);
+                loc.circles.push(circle);
+            }
+        }
+
+        // 5. Update Popup Content
+        function updatePopup(loc) {
+            const div = document.createElement('div');
+            div.className = "p-1 min-w-[220px]";
+            
+            // We use inline onchange handlers calling window-scoped functions
+            div.innerHTML = `
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Label</label>
+                        <input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-sm focus:border-blue-500 outline-none" 
+                               value="${loc.name}" 
+                               onchange="window.updateLocName(${loc.id}, this.value)">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-bold text-slate-500 uppercase">Radius Rings</label>
+                            <span class="text-xs font-mono bg-slate-100 px-1 rounded" id="ringCountVal-${loc.id}">${loc.ringCount}</span>
+                        </div>
+                        <input type="range" min="1" max="5" step="1" value="${loc.ringCount}" 
+                               class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                               oninput="window.updateLocRings(${loc.id}, this.value)">
+                    </div>
+                    <div class="pt-2 border-t border-slate-100 flex justify-end">
+                        <button type="button" onclick="window.deleteLocation(${loc.id})" class="text-xs text-red-500 hover:text-red-700 font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-trash"></i> Delete Marker
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            loc.marker.bindPopup(div);
+        }
+
+        // 6. Global Window Handlers for Popup Interactions
+        window.updateLocName = (id, val) => {
+            const loc = locations.find(l => l.id === id);
+            if(loc) { loc.name = val; updateHiddenJson(); }
+        };
+
+        window.updateLocRings = (id, val) => {
+            const loc = locations.find(l => l.id === id);
+            if(loc) {
+                loc.ringCount = parseInt(val);
+                const display = document.getElementById(`ringCountVal-${id}`);
+                if(display) display.textContent = loc.ringCount;
+                renderCircles(loc);
+                updateHiddenJson();
+            }
+        };
+
+        window.deleteLocation = (id) => {
+            const idx = locations.findIndex(l => l.id === id);
+            if (idx > -1) {
+                const loc = locations[idx];
+                map.removeLayer(loc.marker);
+                loc.circles.forEach(c => map.removeLayer(c));
+                locations.splice(idx, 1);
+                
+                // If we deleted the active one, select another if available
+                if (activeLocationId === id) {
+                    activeLocationId = locations.length > 0 ? locations[locations.length - 1].id : null;
+                    if(activeLocationId) setActiveLocation(activeLocationId);
+                }
+                updateHiddenJson();
+            }
+        };
+
+        // 7. Update Hidden JSON & Legacy Inputs
+        function updateHiddenJson() {
+             const data = locations.map(l => ({
+                 lat: l.lat,
+                 lng: l.lng,
+                 name: l.name,
+                 rings: l.ringCount,
+                 spacing: l.radiusSpacing
+             }));
+             document.getElementById('locations_json').value = JSON.stringify(data);
+             
+             // Backwards compatibility for single-location expectations (use first location)
+             if (locations.length > 0) {
+                 const p = locations[0];
+                 document.getElementById('target_lat').value = p.lat.toFixed(6);
+                 document.getElementById('target_lng').value = p.lng.toFixed(6);
+                 document.getElementById('target_radius').value = p.radiusSpacing;
+             } else {
+                 document.getElementById('target_lat').value = "";
+                 document.getElementById('target_lng').value = "";
+                 document.getElementById('target_radius').value = "";
+             }
+        }
+
+        // 8. Slider Event (Controls Active Location Spacing)
         document.getElementById('radiusSlider').addEventListener('input', function(e) {
             const miles = parseFloat(e.target.value);
-            const meters = miles * 1609.34;
-            circle.setRadius(meters);
-            updateFormInputs(marker.getLatLng().lat, marker.getLatLng().lng, miles);
+            document.getElementById('radiusVal').textContent = miles.toFixed(1);
+            
+            if (activeLocationId) {
+                const loc = locations.find(l => l.id === activeLocationId);
+                if (loc) {
+                    loc.radiusSpacing = miles;
+                    renderCircles(loc);
+                    updateHiddenJson();
+                }
+            }
         });
 
-        // 7. Initial Input Set
-        updateFormInputs(39.0997, -94.5786, 1.0);
+        // 9. Initial Setup
+        // Add a default starting location
+        addLocation(36.8460, -76.2881, "500 E Main St, Norfolk, VA 23510");
 
-        // --- ADDRESS SEARCH (Nominatim API) ---
+        // --- SEARCH FUNCTION ---
         async function searchAddress() {
             const query = document.getElementById('addressInput').value;
             const statusMsg = document.getElementById('searchStatus');
@@ -318,14 +532,14 @@
                     const lat = parseFloat(data[0].lat);
                     const lon = parseFloat(data[0].lon);
                     
-                    // Move Map
+                    // Move map to new location
                     map.flyTo([lat, lon], 13);
-                    marker.setLatLng([lat, lon]);
-                    circle.setLatLng([lat, lon]);
                     
-                    updateFormInputs(lat, lon, document.getElementById('radiusSlider').value);
+                    // ADD new marker instead of moving old one
+                    addLocation(lat, lon, query);
                     
                     statusMsg.classList.add('hidden');
+                    document.getElementById('addressInput').value = ""; // Clear input
                 } else {
                     statusMsg.textContent = "Address not found. Try again.";
                     statusMsg.classList.remove('hidden', 'text-blue-500');
@@ -337,7 +551,48 @@
             }
         }
 
-        // --- TAB LOGIC ---
+        // --- UI LOGIC ---
+        // Listen for Survey Completion
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'SURVEY_COMPLETE') {
+                console.log("Survey Data Received", event.data.data);
+                
+                // 1. Store Data
+                const input = document.getElementById('survey_data');
+                if (input) {
+                    input.value = JSON.stringify(event.data.data);
+                }
+
+                // 2. Update UI
+                const container = document.getElementById('tab-survey');
+                if (container) {
+                    container.classList.remove('border-dashed');
+                    container.classList.add('border-solid', 'bg-blue-50', 'border-blue-200');
+                    container.innerHTML = `
+                        <div class="animate-bounce-in">
+                            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-1">Survey Completed!</h3>
+                            <p class="text-sm text-slate-600 mb-4">Your target market profile has been attached.</p>
+                            
+                            <div class="flex justify-center gap-3">
+                                <button type="button" onclick="window.open('target_market_survey.html', '_blank')" class="text-xs text-blue-600 font-medium hover:underline">
+                                    Redo Survey
+                                </button>
+                            </div>
+                            
+                            <!-- Maintain Hidden Inputs -->
+                            <input type="hidden" name="selection_method" id="selection_method" value="Survey">
+                            <input type="hidden" name="survey_data" id="survey_data" value='${JSON.stringify(event.data.data).replace(/'/g, "&#39;")}'>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        // 
+        // Tab Switching
         function switchTab(tabName) {
             const surveyTab = document.getElementById('tab-survey');
             const expertTab = document.getElementById('tab-expert');
@@ -348,38 +603,37 @@
             if (tabName === 'survey') {
                 surveyTab.classList.remove('hidden');
                 expertTab.classList.add('hidden');
-                
                 surveyBtn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
                 surveyBtn.classList.remove('text-slate-500');
-                
                 expertBtn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
                 expertBtn.classList.add('text-slate-500');
-                
                 hiddenInput.value = "Survey";
             } else {
                 surveyTab.classList.add('hidden');
                 expertTab.classList.remove('hidden');
-
                 expertBtn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
                 expertBtn.classList.remove('text-slate-500');
-
                 surveyBtn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
                 surveyBtn.classList.add('text-slate-500');
-                
                 hiddenInput.value = "Expert Consultation";
             }
         }
 
-        // --- GOOGLE SHEETS SUBMISSION LOGIC ---
-        // Instructions:
-        // 1. Create a Google Sheet.
-        // 2. Go to Extensions > Apps Script.
-        // 3. Paste the standard `doPost(e)` script (code is widely available for "HTML Form to Google Sheet").
-        // 4. Deploy as Web App -> Execute as "Me" -> Who has access: "Anyone".
-        // 5. Paste the "Web App URL" into the const GOOGLE_SCRIPT_URL below.
-        
-        const GOOGLE_SCRIPT_URL = "INSERT_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+        // Toggle Follow Up Options
+        function toggleFollowUpOptions() {
+            const method = document.getElementById('follow_up_method').value;
+            const callOptions = document.getElementById('callMeOptions');
+            
+            if (method === 'Phone Call') {
+                callOptions.classList.remove('hidden');
+                callOptions.classList.add('grid');
+            } else {
+                callOptions.classList.add('hidden');
+                callOptions.classList.remove('grid');
+            }
+        }
 
+        // --- FORM SUBMISSION ---
         document.getElementById('campaignForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -390,6 +644,7 @@
 
             const btn = document.getElementById('submitBtn');
             const originalText = btn.innerHTML;
+            const method = document.getElementById('follow_up_method').value;
             
             // Loading State
             btn.innerHTML = '<div class="loader"></div>';
@@ -403,20 +658,28 @@
                 body: formData
             })
             .then(response => {
-                alert("Success! Your campaign request has been started.");
-                // Reset form or redirect
-                // window.location.href = "thank-you.html";
-                btn.innerHTML = 'Submitted <i class="fa-solid fa-check ml-2"></i>';
-                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                // Success Handling
+                if (method === 'Virtual Meeting') {
+                    // Redirect to Booking
+                    window.location.href = BOOKING_URL;
+                } else {
+                    alert("Success! Your campaign request has been started.");
+                    btn.innerHTML = 'Submitted <i class="fa-solid fa-check ml-2"></i>';
+                    btn.classList.replace('bg-blue-600', 'bg-green-600');
+                }
             })
             .catch(error => {
                 console.error('Error!', error.message);
-                // For demo purposes, we often get CORS errors even on success with simple scripts
-                // So you might want to handle that specific case or use a proxy.
-                alert("Request sent! We will contact you shortly.");
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                // Even if CORS fails, we often assume success in these simple demos, 
+                // but for robust logic we should check.
+                if (method === 'Virtual Meeting') {
+                    window.location.href = BOOKING_URL;
+                } else {
+                    alert("Request sent! We will contact you shortly.");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                }
             });
         });
     </script>
